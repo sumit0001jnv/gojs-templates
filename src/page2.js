@@ -114,7 +114,7 @@ export default function Page2(props) {
         templmap.add("", diagram.nodeTemplate);
 
         diagram.nodeTemplateMap = templmap;
-    }
+    }   
 
     function rebuildGraph(myDiagram) {
         generateCircle(myDiagram, 5, 100, 50, 4, 10, true, false, true);
