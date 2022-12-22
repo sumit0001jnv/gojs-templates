@@ -50,6 +50,29 @@ export default function CircularLayout(props) {
                                     return `Application: ${data}`
                                 }))
                         ),
+                        $(go.Panel, "Vertical", new go.Binding("itemArray"),
+                            {
+                                stretch: go.GraphObject.Fill,
+                                background: '#e0f2f1',
+                                itemTemplate:
+                                    $(go.Panel, 'Auto',  // the Shape will go around the TextBlock
+                                        {
+                                            alignment: go.Spot.Left,
+                                            margin: new go.Margin(4),
+                                            stretch: go.GraphObject.Fill,
+                                        },
+                                        // new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+                                        $(go.Shape, 'RoundedRectangle',
+                                            { fill: 'white', strokeWidth: 0 },
+                                            // Shape.fill is bound to Node.data.color
+                                        ),
+                                        $(go.TextBlock,
+                                            { margin: new go.Margin(1,2), editable: false,textAlign: "left",stroke:"#616161"  },  // some room around the text
+                                            new go.Binding('text', 'name').makeTwoWay()
+                                        ),
+                                    )
+                            }
+                        ),
                         $(go.Placeholder,     // represents area for all member parts
                             { background: "#e0f2f1" },
                         )
@@ -59,42 +82,18 @@ export default function CircularLayout(props) {
 
             );
 
-        const treeGroupTemplate =
-            $(go.Group, "Auto",
-                {
-                    layout: $(go.TreeLayout,
-                        { comparer: go.LayoutVertex.smartComparer })
-                },
-                new go.Binding("isSubGraphExpanded", "isSubGraphExpanded"),
-                $(go.Shape, "RoundedRectangle", { parameter1: 10, fill: "lightgreen", stroke: "darkgreen" }),
-                // $(go.Shape, "RoundedRectangle", // surrounds everything
-                //     { parameter1: 10, fill: "rgba(128,128,128,0.33)" }),
-                $(go.Panel, "Vertical",  // position header above the subgraph
-                    { defaultAlignment: go.Spot.Left },
-                    $(go.Panel, "Horizontal",  // the header
-                        { defaultAlignment: go.Spot.Top },
-                        $("SubGraphExpanderButton"),  // this Panel acts as a Button
-                        $(go.TextBlock,     // group title near top, next to button
-                            { font: "Bold 12pt Sans-Serif" },
-                            new go.Binding("text", "key"))
-                    ),
-                    $(go.Placeholder,     // represents area for all member parts
-                        { padding: new go.Margin(0, 10), background: "white" },
-                    ))
-            );
 
         diagram.linkTemplate =
             $(go.Link,
                 { routing: go.Link.AvoidsNodes },  // link route should avoid nodes
                 $(go.Shape,   // the "from" end arrowhead
-                    { fromArrow: "Standard",fill: "red" }),
+                    { fromArrow: "Standard", fill: "red" }),
                 $(go.Shape,   // the "to" end arrowhead
-                    { toArrow: "Standard"})
+                    { toArrow: "Standard" })
             );
 
         var groupTemplateMap = new go.Map(); // In TypeScript you could write: new go.Map<string, go.Node>();
         groupTemplateMap.add("veriticalLayout", veriticalGroupLayout);
-        groupTemplateMap.add("treeGroup", treeGroupTemplate);
         groupTemplateMap.add("", veriticalGroupLayout);
 
         diagram.startTransaction("generateCircle");
@@ -138,11 +137,19 @@ export default function CircularLayout(props) {
     function createNode() {
         const arr = [];
         const defaultArr = [
-            { key: 0, isGroup: true, category: "veriticalLayout", text: 'Alpha', color: 'lightblue', loc: '0 0' },
-            { group: 0, key: 1, name: "CategoryID", iskey: true, color: 'blue' },
-            { group: 0, key: 2, name: "CategoryName", iskey: false, color: 'blue' },
-            { group: 0, key: 3, name: "Description", iskey: false, color: 'blue' },
-            { group: 0, key: 4, name: "Picture", iskey: false, color: 'pink' },
+            {
+                key: 0, isGroup: true, category: "veriticalLayout",
+                color: 'lightblue', itemArray: [
+                    { key: 12, name: "CategoryName", iskey: true, color: 'blue' },
+                    { key: 11, name: "CategoryID", iskey: true, color: 'red' },
+                    // { key: 13, name: "Description", iskey: false, color: 'blue' },
+                    // { key: 14, name: "Picture", iskey: false, color: 'pink' }
+                ]
+            },
+            // { group: 0, key: 1, name: "CategoryID", iskey: true, color: 'blue' },
+            // { group: 0, key: 2, name: "CategoryName", iskey: false, color: 'blue' },
+            // { group: 0, key: 3, name: "Description", iskey: false, color: 'blue' },
+            // { group: 0, key: 4, name: "Picture", iskey: false, color: 'pink' },
         ];
 
         for (let i = 0; i < 5; i++) {

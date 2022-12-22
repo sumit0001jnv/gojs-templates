@@ -8,6 +8,7 @@ import CircularLayout from './gojs-group-templates/circular.group';
 import GridLayout from './gojs-group-templates/grid.group';
 import TreeLayout from './gojs-group-templates/tree.group';
 import Headers from './Headers';
+import GojsDiagram from './gojs-diagram';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path='/page1' element={<Page1 />} />
         <Route path='/page2' element={<Page2 />} />
         <Route path='/page3' element={<Page3 />} />
+        <Route path='/gojs-diagram' element={<GojsDiagram />} />
         <Route path='/circular-layout' element={<CircularLayout />} />
         <Route path='/grid-layout' element={<GridLayout />} />
         <Route path='/tree-layout' element={<TreeLayout />} />

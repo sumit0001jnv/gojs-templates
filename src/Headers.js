@@ -20,6 +20,9 @@ export default function Headers(props) {
             >Tree Layout</div>
             <div style={{ padding: 2, background: '/circular-layout' === window.location.pathname ? "orange" : "#42aaee", cursor: 'pointer' }}
                 onClick={() => onClick('/circular-layout')}>Circular Layout</div>
+
+            <div style={{ padding: 2, background: '/gojs-diagram' === window.location.pathname ? "orange" : "#42aaee", cursor: 'pointer' }}
+                onClick={() => onClick('/gojs-diagram')}>Gojs Diagram</div>
         </div>
 
     </>
